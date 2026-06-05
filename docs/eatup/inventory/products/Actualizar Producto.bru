@@ -1,0 +1,38 @@
+meta {
+  name: Actualizar Producto
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:8080/inventory/product/e8ae0e6c-ae33-4160-9b09-0fd78da75802
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "Repollo frescoo",
+      "categoryId": "a3f8c1d2-44b7-4e9a-bc12-ff3301882abc",
+      "locationId": "b4f9d2e3-55c8-4f9b-cd23-ff4412993bcd",
+      "unitOfMeasure": "KG",
+      "salePrice": 3000.00,
+      "stock": 45.000,
+      "startDate": "2024-01-10"
+  }
+}
+
+tests {
+  test("Actualización exitosa", () => {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Nombre actualizado", () => {
+    expect(res.body.name).to.equal("Leche semidescremada");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Patch
+  type: http
+  seq: 6
+}
+
+patch {
+  url: http://localhost:8080/inventory/product/06010a50-670f-4587-b392-05503026dbae
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "stock": 0
+  }
+}
+
+tests {
+  test("Patch exitoso", () => {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Precio actualizado", () => {
+    expect(res.body.salePrice).to.equal(5300);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

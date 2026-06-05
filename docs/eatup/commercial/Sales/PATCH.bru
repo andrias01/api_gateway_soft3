@@ -1,0 +1,45 @@
+meta {
+  name: PATCH
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/commercial/api/v1/sales/:key
+  body: json
+  auth: bearer
+}
+
+params:path {
+  key: 249f1215-29d8-491c-a429-769a25b307b6
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqdWFuLmJlcm5hbEBnbWFpbC5jb20iLCJpYXQiOjE3Nzc5NDIwNDksImV4cCI6MTc3Nzk0NTY0OX0.1rS-McQqaB9gQerb2FH6lWEfPU2NK6Q9XoBV9l096S7RUMVjz8180ezc7n14uVhL
+}
+
+body:json {
+  {
+    "status": "CREATED"
+  }
+}
+
+vars:pre-request {
+  id: 5410bd50-76a4-49cb-b5d7-2fcae61d5473
+}
+
+script:post-response {
+  test("Actualización exitosa", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Monto total es válido", function() {
+    const data = res.getBody();
+    expect(data.totalAmount).to.be.greaterThan(0);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

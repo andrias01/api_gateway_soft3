@@ -1,0 +1,31 @@
+meta {
+  name: update phone
+  type: http
+  seq: 2
+}
+
+patch {
+  url: http://localhost:8080/comercialapi/v1/sellers/{{sellerId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "phone": "3119876543"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Phone was updated", function() {
+    expect(res.getBody().phone).to.equal("3119876543");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

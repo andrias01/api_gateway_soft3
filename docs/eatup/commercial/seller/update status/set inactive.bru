@@ -1,0 +1,31 @@
+meta {
+  name: set inactive
+  type: http
+  seq: 1
+}
+
+patch {
+  url: http://localhost:8080/comercialapi/v1/sellers/{{sellerId}}/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "INACTIVE"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Status is INACTIVE", function() {
+    expect(res.getBody().status).to.equal("INACTIVE");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,56 @@
+meta {
+  name: Update sale
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/commercial/api/v1/sales/:key
+  body: json
+  auth: bearer
+}
+
+params:path {
+  key: 5410bd50-76a4-49cb-b5d7-2fcae61d5473
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqdWFuLmJlcm5hbEBnbWFpbC5jb20iLCJpYXQiOjE3Nzc5MTY0MjAsImV4cCI6MTc3NzkyMDAyMH0.oII_l5-fTAfn7aWcDbJxaZCJsQdpTIadprXI22V6cui4Q0GO4_i04mNtXwpf3Y8w
+}
+
+body:json {
+  { "sellerId": "SELLER-456", 
+   "locationId": "c0a80100-0000-0000-0000-000000000001", 
+   "tableId": "TABLE-12", "details": [ 
+     { "recipeId": "aa1b2c3d-4e5f-6789-abcd-ef0123456789", 
+      "lineDisplayName": "Empanada de carne", 
+      "quantity": 3.5, "unitPrice": 2500.0, 
+      "recipeLineComment": "Bien dorada" }, 
+     { "recipeId": "de2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b", 
+      "lineDisplayName": "Gaseosa", 
+      "quantity": 1.0, "unitPrice": 2000.0, 
+      "recipeLineComment": "Sin hielo" 
+     } 
+   ] 
+  }
+}
+
+vars:pre-request {
+  id: 5410bd50-76a4-49cb-b5d7-2fcae61d5473
+}
+
+script:post-response {
+  test("Actualización exitosa", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Monto total es válido", function() {
+    const data = res.getBody();
+    expect(data.totalAmount).to.be.greaterThan(0);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

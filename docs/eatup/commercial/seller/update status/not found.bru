@@ -1,0 +1,31 @@
+meta {
+  name: not found
+  type: http
+  seq: 3
+}
+
+patch {
+  url: http://localhost:8080/comercialapi/v1/sellers/00000000-0000-0000-0000-000000000000/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "INACTIVE"
+  }
+}
+
+tests {
+  test("Status code is 404", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+  test("Response has error message", function() {
+    expect(res.getBody()).to.have.property("message");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

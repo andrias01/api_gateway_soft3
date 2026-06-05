@@ -1,0 +1,43 @@
+meta {
+  name: duplicate seller
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/comercialapi/v1/sellers
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "documentTypeId": "b9734b27-272a-418a-aba9-3ceb4864e39b",
+    "locationId": "550e8400-e29b-41d4-a716-446655440000",
+    "identificationNumber": "9999999999",
+    "firstName": "Carlos",
+    "lastName": "Lopez",
+    "phone": "3009999999",
+    "email": "juan.nuevo@email.com",
+    "commissionPercentage": 5.0
+  }
+}
+
+tests {
+  test("Status code is 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  
+  test("Response has error message", function() {
+    expect(res.getBody()).to.have.property("message");
+  });
+  
+  test("Message mentions already exists", function() {
+    expect(res.getBody().message).to.contain("already exists");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

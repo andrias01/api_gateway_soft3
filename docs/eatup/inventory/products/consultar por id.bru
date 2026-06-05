@@ -1,0 +1,30 @@
+meta {
+  name: consultar por id
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/inventory/product/d8cf2e92-af13-4792-b66c-522d3f38d24c
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status 200", () => {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Producto válido", () => {
+    expect(res.body.id).to.exist;
+    expect(res.body.name).to.exist;
+  
+    const uuidRegex = /^[0-9a-f-]{36}$/;
+    expect(res.body.id).to.match(uuidRegex);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

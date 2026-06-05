@@ -1,0 +1,67 @@
+meta {
+  name: 03 - Crear reserva
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/commercial/api/v1/tables/{{tableId}}/reservations
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{baseUrl}}/commercial/api/v1/tables/{{tableId}}/sessions/active
+}
+
+body:json {
+  {
+      "reservationDate": "2026-06-09",
+      "reservationTime": "10:50",
+      "guestName": "Cliente Bruno",
+      "guestDocumentNumber": "1234567890",
+      "guestCount": 4
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:8080
+  tableId: 4339662f-d046-4937-aaf3-d654aad03b21
+}
+
+script:pre-request {
+  const now = new Date();
+  now.setHours(now.getHours() + 2, 0, 0, 0);
+  
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mi = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  
+  bru.setVar("reservationDate", `${yyyy}-${mm}-${dd}`);
+  bru.setVar("reservationTime", `${hh}:${mi}:${ss}`);
+  bru.setVar("guestDocumentNumber", `BRUNO-${Date.now()}`);
+}
+
+script:post-response {
+  const data = res.getBody();
+  
+  test("Status code is 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  if (data && data.id) {
+    bru.setVar("reservationId", data.id);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

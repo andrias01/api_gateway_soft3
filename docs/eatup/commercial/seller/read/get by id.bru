@@ -1,0 +1,33 @@
+meta {
+  name: get by id
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/comercialapi/v1/sellers/{{sellerId}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Response has id", function() {
+    expect(res.getBody()).to.have.property("id");
+  });
+  test("Response has correct fields", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("firstName");
+    expect(body).to.have.property("lastName");
+    expect(body).to.have.property("email");
+    expect(body).to.have.property("phone");
+    expect(body).to.have.property("status");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

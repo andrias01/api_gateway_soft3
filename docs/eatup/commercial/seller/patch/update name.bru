@@ -1,0 +1,35 @@
+meta {
+  name: update name
+  type: http
+  seq: 1
+}
+
+patch {
+  url: http://localhost:8080/comercialapi/v1/sellers/{{sellerId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "Carlos",
+    "lastName": "Rodriguez"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("First name was updated", function() {
+    expect(res.getBody().firstName).to.equal("Carlos");
+  });
+  test("Last name was updated", function() {
+    expect(res.getBody().lastName).to.equal("Rodriguez");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
