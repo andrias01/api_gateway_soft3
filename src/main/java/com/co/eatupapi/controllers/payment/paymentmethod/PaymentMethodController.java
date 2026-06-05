@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/payment-methods")
 @Tag(name = "Métodos de Pago", description = "Consulta de métodos de pago disponibles")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.OPTIONS})
+@CrossOrigin(origins = "https://thunderous-puppy-e9ac3b.netlify.app", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.OPTIONS})
 public class PaymentMethodController {
 
     private final PaymentMethodService paymentMethodService;
